@@ -10,12 +10,17 @@ app.set('view engine', 'ejs') // Tells Express to use EJS as templating engine
 const mongoose = require('mongoose'); 
 mongoose.connect('mongodb://localhost/my_database', {useNewURLParser: true}); 
  
+// Using bodyparser
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
  
 const BlogPost = require('./models/BlogPost.js')
 app.use(express.static('public'))
+
+// Request handler for '/posts/store'
+const fileUpload = require('express-fileupload')
+app.use(fileUpload())
 
 app.listen(4000, ()=>{
     console.log("App listening on port 4000")
@@ -58,7 +63,13 @@ app.get('/posts/new', (req, res)=>{
 })
 
 app.post('/posts/store', async (req, res)=>{
+    let image = req.files.image; 
+
+    // Moves file elsewhere on server and name
+    image.mv(path.resolve(__dirname, 'public/img', image.name),
+    async(error) => {
     // Model creates a new doc with browser data
       await BlogPost.create(req.body)
       res.redirect('/')
-  })
+    })
+})
