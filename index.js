@@ -29,6 +29,14 @@ const customMiddleWare = (req, res, next) => {
 }
 app.use(customMiddleWare)
 
+const validateMiddleWare = (req,res,next)=>{
+    if(req.files == null || req.body.title == null){
+        return res.redirect('/posts/new')
+    }
+    next()
+}
+app.use('/posts/store',validateMiddleWare)
+
 app.listen(4000, ()=>{
     console.log("App listening on port 4000")
 })
