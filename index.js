@@ -10,6 +10,7 @@ app.set('view engine', 'ejs') // Tells Express to use EJS as templating engine
 const mongoose = require('mongoose'); 
 mongoose.connect('mongodb://localhost/my_database', {useNewURLParser: true}); 
  
+// Using bodyparser
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
