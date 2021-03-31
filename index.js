@@ -22,6 +22,13 @@ app.use(express.static('public'))
 const fileUpload = require('express-fileupload')
 app.use(fileUpload())
 
+// Creating custom middleware
+const customMiddleWare = (req, res, next) => {
+  console.log('Custom middleware called')
+  next() // Tells Express that the middleware is done
+}
+app.use(customMiddleWare)
+
 app.listen(4000, ()=>{
     console.log("App listening on port 4000")
 })
