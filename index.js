@@ -69,7 +69,10 @@ app.post('/posts/store', async (req, res)=>{
     image.mv(path.resolve(__dirname, 'public/img', image.name),
     async(error) => {
     // Model creates a new doc with browser data
-      await BlogPost.create(req.body)
+      await BlogPost.create({
+        ...req.body,
+        image: '/img/' + image.name
+      })
       res.redirect('/')
     })
 })
