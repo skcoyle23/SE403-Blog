@@ -29,12 +29,8 @@ const customMiddleWare = (req, res, next) => {
 }
 app.use(customMiddleWare)
 
-const validateMiddleWare = (req,res,next)=>{
-    if(req.files == null || req.body.title == null){
-        return res.redirect('/posts/new')
-    }
-    next()
-}
+const validateMiddleWare = require("./middleware/validationMiddleware");
+
 app.use('/posts/store',validateMiddleWare)
 
 // Import controllers 
