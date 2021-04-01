@@ -37,6 +37,9 @@ const validateMiddleWare = (req,res,next)=>{
 }
 app.use('/posts/store',validateMiddleWare)
 
+// Move existing request handler from newPost.js
+const newPostController = require('./controllers/newPost')
+
 app.listen(4000, ()=>{
     console.log("App listening on port 4000")
 })
@@ -72,10 +75,12 @@ app.get('/post', (req,res)=>{
     })
  })
 
+ /*
 app.get('/posts/new', (req, res)=>{
   // Model creates a new doc with browser data
     res.render('create'); 
-})
+}) */
+app.get('/posts/new', newPostController)
 
 app.post('/posts/store', async (req, res)=>{
     let image = req.files.image; 
