@@ -52,23 +52,7 @@ app.get('/', async (req,res)=>{
    }); 
 })
 
-app.get('/about', (req,res)=>{
-    //res.sendFile(path.resolve(__dirname, 'about.html'))
-    res.render('about')
-})
-
-app.get('/contact', (req,res)=>{
-   // res.sendFile(path.resolve(__dirname, 'contact.html'))
-   res.render('contact')
-})
-
-/*
-app.get('/post', (req,res)=>{
-    // res.sendFile(path.resolve(__dirname, 'post.html'))
-    res.render('post')
- }) */
-
- app.get('/post/:id', async (req,res)=>{
+app.get('/post/:id', async (req,res)=>{
     const blogpost = await BlogPost.findById(req.params.id)
     res.render('post', {
         blogpost
