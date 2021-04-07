@@ -39,10 +39,15 @@ const homeController = require('./controllers/home')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
 
+const newUserController = require('./controllers/newUser')
+
 app.listen(4000, ()=>{
     console.log("App listening on port 4000")
 })
 
+/*
+*Adding routes to the above controllers
+*/
 app.get('/', homeController)
 
 app.get('/post/:id', getPostController)
@@ -56,3 +61,5 @@ app.get('/posts/new', (req, res)=>{
 app.get('/posts/new', newPostController)
 
 app.post('/posts/store', storePostController)
+
+app.get('/auth/register', newUserController) // Applying a route to newUserController
