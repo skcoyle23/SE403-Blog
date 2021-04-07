@@ -1,9 +1,26 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema; 
+const bcrypt = require('bcrypt')
 
 const UserSchema = new Schema ({
     username: String, 
     password: String
+})
+
+/*
+* Allows us to change user data before saving it into the database
+*/
+UserSchema.pre('save', function(next) {
+    const user = this // User first being saved
+
+    /*
+    * Takes in the password to be hashed w/ 10 encryptions
+    * More hashing = more securing, but slower the process
+    */
+    bcrypt.hash(user.password, 10, (error, hash) =>{
+        user.password = hash
+        next()
+    })
 })
 
 // Export model
