@@ -42,6 +42,9 @@ const getPostController = require('./controllers/getPost')
 const newUserController = require('./controllers/newUser')
 const storeUserController = require('./controllers/storeUser')
 
+const loginController = require('./controllers/login')
+app.get('/auth/login', loginController);
+
 app.listen(4000, ()=>{
     console.log("App listening on port 4000")
 })
