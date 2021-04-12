@@ -3,9 +3,16 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt')
 
 const UserSchema = new Schema ({
-    username: String, 
-    password: String
-})
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    }
+});
 
 /*
 * Allows us to change user data before saving it into the database
