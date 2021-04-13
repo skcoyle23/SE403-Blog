@@ -55,6 +55,11 @@ app.use(expressSession( {
   secret: 'keyboard cat' // This can be changed to whatever
 }))
 
+// Import authMiddleware
+const authMiddleware = require('./middleware/authMiddleware')
+
+app.get('/posts/new', authMiddleware, newPostController)
+
 app.post('/users/login', loginUserController)
 
 app.listen(4000, ()=>{
@@ -74,9 +79,9 @@ app.get('/posts/new', (req, res)=>{
     res.render('create'); 
 }) */
 
-app.get('/posts/new', newPostController)
+//app.get('/posts/new', newPostController)
 
-app.post('/posts/store', storePostController)
+app.post('/posts/store', authMiddleware, storePostController)
 
 app.get('/auth/register', newUserController) // Applying a route to newUserController
 app.post('/users/register', storeUserController) 
