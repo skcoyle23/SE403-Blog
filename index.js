@@ -46,6 +46,15 @@ const loginController = require('./controllers/login')
 app.get('/auth/login', loginController);
 
 const loginUserController = require('./controllers/loginUser')
+
+// Register express session middleware 
+const expressSession = require('express-session'); 
+
+// secret used to sign and encrypt the session ID cookie being shared w/ browser
+app.use(expressSession( {
+  secret: 'keyboard cat' // This can be changed to whatever
+}))
+
 app.post('/users/login', loginUserController)
 
 app.listen(4000, ()=>{
