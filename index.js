@@ -43,7 +43,7 @@ const newUserController = require('./controllers/newUser')
 const storeUserController = require('./controllers/storeUser')
 
 const loginController = require('./controllers/login')
-app.get('/auth/login', loginController);
+app.get('/auth/login', redirectIfAuthenticatedMessage, loginController);
 
 const loginUserController = require('./controllers/loginUser')
 
@@ -60,7 +60,7 @@ const authMiddleware = require('./middleware/authMiddleware')
 
 app.get('/posts/new', authMiddleware, newPostController)
 
-app.post('/users/login', loginUserController)
+app.post('/users/login', redirectIfAuthenticatedMessage, loginUserController)
 
 app.listen(4000, ()=>{
     console.log("App listening on port 4000")
@@ -83,5 +83,7 @@ app.get('/posts/new', (req, res)=>{
 
 app.post('/posts/store', authMiddleware, storePostController)
 
-app.get('/auth/register', newUserController) // Applying a route to newUserController
-app.post('/users/register', storeUserController) 
+app.get('/auth/register', redirectIfAuthenticatedMessage, newUserController) // Applying a route to newUserController
+app.post('/users/register', redirectIfAuthenticatedMessage, storeUserController) 
+
+const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMessage')
