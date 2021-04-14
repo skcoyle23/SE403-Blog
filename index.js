@@ -47,6 +47,9 @@ app.get('/auth/login', redirectIfAuthenticatedMessage, loginController);
 
 const loginUserController = require('./controllers/loginUser')
 
+const logoutController = require('./controllers/logout')
+app.get('auth/logout', logoutController)
+
 global.loggedIn = null;
 
 app.use("*", (req, res, next) => {
