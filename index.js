@@ -50,6 +50,8 @@ const loginUserController = require('./controllers/loginUser')
 const logoutController = require('./controllers/logout')
 app.get('auth/logout', logoutController)
 
+app.use((req, res) => res.render('notfound'));
+
 global.loggedIn = null;
 
 app.use("*", (req, res, next) => {
