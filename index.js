@@ -47,6 +47,13 @@ app.get('/auth/login', redirectIfAuthenticatedMessage, loginController);
 
 const loginUserController = require('./controllers/loginUser')
 
+global.loggedIn = null;
+
+app.use("*", (req, res, next) => {
+  loggedIn = req.session.userId;
+  next()   
+});
+
 // Register express session middleware 
 const expressSession = require('express-session'); 
 
