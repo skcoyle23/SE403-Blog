@@ -43,6 +43,9 @@ const newUserController = require('./controllers/newUser')
 const storeUserController = require('./controllers/storeUser')
 
 const loginController = require('./controllers/login')
+
+const redirectIfAuthenticatedMessage = require('./middleware/redirectIfAuthenticatedMessage')
+
 app.get('/auth/login', redirectIfAuthenticatedMessage, loginController);
 
 const loginUserController = require('./controllers/loginUser')
@@ -97,5 +100,3 @@ app.post('/posts/store', authMiddleware, storePostController)
 
 app.get('/auth/register', redirectIfAuthenticatedMessage, newUserController) // Applying a route to newUserController
 app.post('/users/register', redirectIfAuthenticatedMessage, storeUserController) 
-
-const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMessage')
