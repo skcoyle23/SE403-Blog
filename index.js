@@ -53,6 +53,9 @@ const loginUserController = require('./controllers/loginUser')
 const logoutController = require('./controllers/logout')
 app.get('auth/logout', logoutController)
 
+const flash = require('connect-flash');
+app.use(flash());
+
 app.use((req, res) => res.render('notfound'));
 
 global.loggedIn = null;
