@@ -38,13 +38,12 @@ const newPostController = require('./controllers/newPost')
 const homeController = require('./controllers/home')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
-
 const newUserController = require('./controllers/newUser')
 const storeUserController = require('./controllers/storeUser')
-
 const loginController = require('./controllers/login')
-
 const redirectIfAuthenticatedMessage = require('./middleware/redirectIfAuthenticatedMessage')
+// Import authMiddleware
+const authMiddleware = require('./middleware/authMiddleware')
 
 app.get('/auth/login', redirectIfAuthenticatedMessage, loginController);
 
@@ -73,23 +72,14 @@ app.use(expressSession( {
   secret: 'keyboard cat' // This can be changed to whatever
 }))
 
-// Import authMiddleware
-const authMiddleware = require('./middleware/authMiddleware')
-
-app.get('/posts/new', authMiddleware, newPostController)
-
-app.post('/users/login', redirectIfAuthenticatedMessage, loginUserController)
-
-app.listen(4000, ()=>{
-    console.log("App listening on port 4000")
-})
 
 /*
 *Adding routes to the above controllers
 */
+app.get('/posts/new', authMiddleware, newPostController)
 app.get('/', homeController)
-
 app.get('/post/:id', getPostController)
+app.get('/auth/register', redirectIfAuthenticatedMessage, newUserController) // Applying a route to newUserController
 
 /*
 app.get('/posts/new', (req, res)=>{
@@ -100,6 +90,10 @@ app.get('/posts/new', (req, res)=>{
 //app.get('/posts/new', newPostController)
 
 app.post('/posts/store', authMiddleware, storePostController)
-
-app.get('/auth/register', redirectIfAuthenticatedMessage, newUserController) // Applying a route to newUserController
 app.post('/users/register', redirectIfAuthenticatedMessage, storeUserController) 
+app.post('/users/login', redirectIfAuthenticatedMessage, loginUserController)
+
+
+app.listen(4000, ()=>{
+  console.log("App listening on port 4000")
+})
