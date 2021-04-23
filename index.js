@@ -57,13 +57,6 @@ app.use(flash());
 
 app.use((req, res) => res.render('notfound'));
 
-global.loggedIn = null;
-
-app.use("*", (req, res, next) => {
-  loggedIn = req.session.userId;
-  next()   
-});
-
 // Register express session middleware 
 const expressSession = require('express-session'); 
 
@@ -93,6 +86,12 @@ app.post('/posts/store', authMiddleware, storePostController)
 app.post('/users/register', redirectIfAuthenticatedMessage, storeUserController) 
 app.post('/users/login', redirectIfAuthenticatedMessage, loginUserController)
 
+global.loggedIn = null;
+
+app.use("*", (req, res, next) => {
+  loggedIn = req.session.userId;
+  next()   
+});
 
 app.listen(4000, ()=>{
   console.log("App listening on port 4000")
