@@ -86,6 +86,7 @@ app.post('/posts/store', authMiddleware, storePostController)
 app.post('/users/register', redirectIfAuthenticatedMessage, storeUserController) 
 app.post('/users/login', redirectIfAuthenticatedMessage, loginUserController)
 
+// Hides new user login if user is already logged in
 global.loggedIn = null;
 
 app.use("*", (req, res, next) => {
