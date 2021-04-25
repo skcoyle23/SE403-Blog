@@ -10,7 +10,7 @@ module.exports = (req, res) =>{
 
     res.render('register', { // render register.ejs
         //errors: req.session.validationErrors
-        errors: flash('validationErrors'),
+        errors: req.flash('validationErrors'),
         username: username,
         password: password
     })

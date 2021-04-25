@@ -1,5 +1,4 @@
 const express = require('express')
-//const path = require('path')
 
 // Using bodyparser
 const bodyParser = require('body-parser')
@@ -44,7 +43,6 @@ const loginController = require('./controllers/login')
 const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware')
 // Import authMiddleware
 const authMiddleware = require('./middleware/authMiddleware')
-
 const loginUserController = require('./controllers/loginUser')
 const logoutController = require('./controllers/logout')
 
@@ -60,12 +58,12 @@ app.use(expressSession( {
 /*
 *Adding routes to the above controllers
 */
-app.get('/posts/new', authMiddleware, newPostController)
 app.get('/', homeController)
+app.get('/posts/new', authMiddleware, newPostController)
 app.get('/post/:id', getPostController)
 app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController) // Applying a route to newUserController
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
-app.get('auth/logout', logoutController)
+app.get('/auth/logout', logoutController)
 
 /*
 app.get('/posts/new', (req, res)=>{
