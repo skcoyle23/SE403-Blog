@@ -11,14 +11,14 @@ module.exports = (req, res) =>{
                     if(same){ // if passwords match
                         req.session.userId = user._id
                         // store user session, will talk about it later
-                        return res.redirect('/') 
+                        res.redirect('/') 
                      } 
                     else {
                         const validationErrors = ["Invalid username or password"]; 
                         req.flash('validationErrors', validationErrors); 
                         req.flash('data', req.body); 
                         
-                       return res.redirect('/auth/login')
+                       res.redirect('/auth/login')
                  }
                 })
         } 
@@ -27,7 +27,7 @@ module.exports = (req, res) =>{
             req.flash('validationErrors', validationErrors); 
             req.flash('data', req.body); 
             
-           return res.redirect('/auth/login')
+           res.redirect('/auth/login')
         }
     })
 }

@@ -47,12 +47,9 @@ const authMiddleware = require('./middleware/authMiddleware')
 
 const loginUserController = require('./controllers/loginUser')
 const logoutController = require('./controllers/logout')
-app.get('auth/logout', logoutController)
 
 const flash = require('connect-flash');
 app.use(flash());
-
-app.use((req, res) => res.render('notfound'));
 
 // secret used to sign and encrypt the session ID cookie being shared w/ browser
 app.use(expressSession( {
@@ -68,6 +65,7 @@ app.get('/', homeController)
 app.get('/post/:id', getPostController)
 app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController) // Applying a route to newUserController
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
+app.get('auth/logout', logoutController)
 
 /*
 app.get('/posts/new', (req, res)=>{
@@ -88,6 +86,9 @@ app.use("*", (req, res, next) => {
   loggedIn = req.session.userId;
   next()   
 }); 
+
+
+app.use((req, res) => res.render('notfound'));
 
 app.listen(4000, ()=>{
   console.log("App listening on port 4000")
