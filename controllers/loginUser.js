@@ -6,19 +6,28 @@ module.exports = (req, res) =>{
     
     User.findOne({username:username}, (error,user) => {
         if (user){
-            bcrypt.compare(password, user.password, (error, same) => {        
-            if(same){ // if passwords match
-                req.session.userId = user._id
-                // store user session, will talk about it later
-                res.redirect('/') 
-             } 
-            else {
-                res.redirect('/auth/login')
-            }
-         })
+            bcrypt.compare(password, user.password, 
+                (error, same) => {        
+                    if(same){ // if passwords match
+                        req.session.userId = user._id
+                        // store user session, will talk about it later
+                        res.redirect('/') 
+                     } 
+                    else {
+                        const validationErrors = ["Invalid username or password"]; 
+                        req.flash('validationErrors', validationErrors); 
+                        req.flash('data', req.body); 
+                        
+                       res.redirect('/auth/login')
+                 }
+                })
         } 
         else{
-            res.redirect('/auth/login')
+            const validationErrors = ["Invalid username or password"]; 
+            req.flash('validationErrors', validationErrors); 
+            req.flash('data', req.body); 
+            
+           res.redirect('/auth/login')
         }
     })
 }
