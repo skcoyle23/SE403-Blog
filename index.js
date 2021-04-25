@@ -33,36 +33,23 @@ const validateMiddleWare = require("./middleware/validationMiddleware");
 
 app.use('/posts/store',validateMiddleWare)
 
-// Hides new user login if user is already logged in
-global.loggedIn = null;
-
-app.use("*", (req, res, next) => {
-  loggedIn = req.session.userId;
-  next()   
-});
-
-
 // Import controllers 
 const newPostController = require('./controllers/newPost')
-const homeController = require('./controllers/home')
+const homeController = require('./controllers/homePage')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
 const newUserController = require('./controllers/newUser')
 const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
-const redirectIfAuthenticatedMessage = require('./middleware/redirectIfAuthenticatedMiddleware')
+const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware')
 // Import authMiddleware
 const authMiddleware = require('./middleware/authMiddleware')
 
-app.get('/auth/login', redirectIfAuthenticatedMessage, loginController);
-
 const loginUserController = require('./controllers/loginUser')
-
 const logoutController = require('./controllers/logout')
 app.get('auth/logout', logoutController)
 
 const flash = require('connect-flash');
-const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware');
 app.use(flash());
 
 app.use((req, res) => res.render('notfound'));
@@ -80,6 +67,7 @@ app.get('/posts/new', authMiddleware, newPostController)
 app.get('/', homeController)
 app.get('/post/:id', getPostController)
 app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController) // Applying a route to newUserController
+app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
 
 /*
 app.get('/posts/new', (req, res)=>{
@@ -92,6 +80,14 @@ app.get('/posts/new', (req, res)=>{
 app.post('/posts/store', authMiddleware, storePostController)
 app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController) 
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
+
+// Hides new user login if user is already logged in
+global.loggedIn = null;
+
+app.use("*", (req, res, next) => {
+  loggedIn = req.session.userId;
+  next()   
+}); 
 
 app.listen(4000, ()=>{
   console.log("App listening on port 4000")
